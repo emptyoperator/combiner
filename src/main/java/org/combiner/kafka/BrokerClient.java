@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.KafkaFuture;
+import org.apache.kafka.common.errors.WakeupException;
 
 import java.time.Duration;
 import java.util.HashSet;
@@ -73,24 +74,6 @@ public class BrokerClient implements AutoCloseable {
         }
     }
 
-    private void startConsumer() {
-        if (!running.get()) {
-            if (worker == null) {
-                worker = new Thread(this::poll, THREAD_NAME);
-                worker.setDaemon(true);
-                worker.start();
-            }
-            running.set(true);
-        }
-    }
-
-    private void poll() {
-        while (running.get()) {
-            ConsumerRecords<String, String> records = poll(Duration.ofMillis(100));
-            listeners.forEach((topic, listener) -> records.records(topic).forEach(listener));
-        }
-    }
-
     public void unsubscribe(String topic) {
         Set<String> subscription = new HashSet<>(subscription());
         subscription.remove(topic);
@@ -101,8 +84,33 @@ public class BrokerClient implements AutoCloseable {
         listeners.remove(topic);
     }
 
+    private void startConsumer() {
+        if (!running.get()) {
+            if (worker == null || !worker.isAlive()) {
+                worker = new Thread(this::poll, THREAD_NAME);
+                worker.setDaemon(true);
+                worker.start();
+            }
+            running.set(true);
+        }
+    }
+
     private void stopConsumer() {
         running.set(false);
+        consumer.wakeup();
+    }
+
+    private void poll() {
+        try {
+            while (running.get()) {
+                ConsumerRecords<String, String> records = poll(Duration.ofMillis(100));
+                listeners.forEach((topic, listener) -> records.records(topic).forEach(listener));
+            }
+        } catch (WakeupException e) {
+            if (running.get()) {
+                throw e;
+            }
+        }
     }
 
     private synchronized ConsumerRecords<String, String> poll(Duration timeout) {
@@ -119,15 +127,9 @@ public class BrokerClient implements AutoCloseable {
 
     @Override
     public void close() {
+        admin.close();
+        producer.close();
         stopConsumer();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
-            admin.close();
-            producer.close();
-            consumer.close();
-        }
+        consumer.close();
     }
 }

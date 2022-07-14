@@ -2,7 +2,6 @@ package org.combiner.controller;
 
 import javafx.application.Platform;
 import javafx.beans.binding.NumberExpression;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -16,7 +15,7 @@ public class ConsumerController {
     private final BrokerClient client;
 
     @FXML
-    private ListView<ConsumerRecord<String, String>> eventList;
+    private ListView<ConsumerRecord<String, String>> records;
 
     public ConsumerController(NumberExpression expression, String topic, BrokerClient client) {
         this.expression = expression;
@@ -26,7 +25,7 @@ public class ConsumerController {
 
     @FXML
     private void initialize() {
-        eventList.setCellFactory(list -> new ListCell<>() {
+        records.setCellFactory(list -> new ListCell<>() {
             @Override
             protected void updateItem(ConsumerRecord<String, String> item, boolean empty) {
                 super.updateItem(item, empty);
@@ -38,6 +37,6 @@ public class ConsumerController {
                 }
             }
         });
-        client.subscribe(topic, record -> Platform.runLater(() -> eventList.getItems().add(record)));
+        client.subscribe(topic, record -> Platform.runLater(() -> records.getItems().add(record)));
     }
 }

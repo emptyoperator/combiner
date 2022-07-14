@@ -18,7 +18,7 @@ public class RecordController {
     private final ConsumerRecord<String, String> record;
 
     @FXML
-    private VBox root;
+    private VBox recordInfo;
 
     @FXML
     private Text timestamp;
@@ -44,8 +44,8 @@ public class RecordController {
         timestamp.setText(formatter.format(instant));
         key.setText(record.key());
         value.setText(record.value());
-        root.maxWidthProperty().bind(expression.subtract(button.widthProperty()));
-        value.wrappingWidthProperty().bind(root.widthProperty());
-        HBox.setHgrow(root, Priority.ALWAYS);
+        recordInfo.maxWidthProperty().bind(expression.subtract(button.widthProperty()));
+        value.wrappingWidthProperty().bind(recordInfo.widthProperty());
+        HBox.setHgrow(recordInfo, Priority.ALWAYS);
     }
 }

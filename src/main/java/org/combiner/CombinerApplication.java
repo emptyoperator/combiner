@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import org.combiner.kafka.BrokerClient;
 import org.combiner.kafka.model.Broker;
 import org.combiner.kafka.model.BrokerDetails;
-import org.combiner.ui.Components;
+import org.combiner.ui.pane.broker.BrokerAnchorPane;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class CombinerApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        Scene scene = new Scene(Components.root(BROKERS), 960, 640);
+        Scene scene = new Scene(new BrokerAnchorPane(BROKERS), 960, 640);
         stage.setTitle(APPLICATION_NAME);
         stage.setScene(scene);
         stage.show();

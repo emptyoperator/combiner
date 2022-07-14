@@ -1,7 +1,6 @@
 package org.combiner.ui;
 
 import javafx.beans.binding.NumberExpression;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -12,10 +11,11 @@ import org.combiner.controller.TopicSelectorController;
 import org.combiner.kafka.BrokerClient;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class Views {
-    public static Node topicSelector(String tabId, BrokerClient client) {
-        return loadView("/org/combiner/topic-selector.fxml", new TopicSelectorController(tabId, client));
+    public static Node topicSelector(BrokerClient client, Consumer<String> topicConsumer) {
+        return loadView("/org/combiner/topic-selector.fxml", new TopicSelectorController(client, topicConsumer));
     }
 
     public static Node producer(String topic, BrokerClient client) {
