@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox fx:id="root">
+        <HBox>
+            <TextFlow>
+                <Text fx:id="timestamp" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0"
+                      style="-fx-text-fill: gray;"/>
+                <Text fx:id="key" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;"/>
+            </TextFlow>
+        </HBox>
+        <Text fx:id="value" fill="CORNFLOWERBLUE" strokeType="OUTSIDE" strokeWidth="0.0"
+              style="-fx-font-weight: bold;"/>
+    </VBox>
+    <Button fx:id="button" mnemonicParsing="false" text="Button"/>
+</HBox>
+
+        <!--<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">-->
+        <!--    <HBox>-->
+        <!--        <TextFlow>-->
+        <!--            <Text fx:id="timestamp" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: gray;"/>-->
+        <!--            <Text fx:id="key" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;"/>-->
+        <!--        </TextFlow>-->
+        <!--    </HBox>-->
+        <!--    <Text fx:id="value" fill="CORNFLOWERBLUE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;"/>-->
+        <!--</VBox>-->
