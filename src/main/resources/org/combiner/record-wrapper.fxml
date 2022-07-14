@@ -2,24 +2,11 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16"
             xmlns:fx="http://javafx.com/fxml/1">
-    <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-          AnchorPane.topAnchor="0.0">
-        <VBox HBox.hgrow="ALWAYS">
-            <HBox>
-                <TextFlow>
-                    <Text fx:id="timestamp" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0"
-                          style="-fx-text-fill: gray;" text="time"/>
-                    <Text fx:id="key" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;"
-                          text="key"/>
-                </TextFlow>
-            </HBox>
-            <Text fx:id="value" fill="CORNFLOWERBLUE" strokeType="OUTSIDE" strokeWidth="0.0"
-                  style="-fx-font-weight: bold;" text="value"/>
-        </VBox>
-        <Button mnemonicParsing="false" text="Button"/>
-    </HBox>
+    <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <ChoiceBox fx:id="topic" prefWidth="300.0"/>
+    </StackPane>
 </AnchorPane>

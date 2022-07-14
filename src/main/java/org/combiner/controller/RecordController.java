@@ -45,7 +45,7 @@ public class RecordController {
         key.setText(record.key());
         value.setText(record.value());
         recordInfo.maxWidthProperty().bind(expression.subtract(button.widthProperty()));
-        value.wrappingWidthProperty().bind(recordInfo.widthProperty());
+        value.wrappingWidthProperty().bind(expression.subtract(button.widthProperty()));
         HBox.setHgrow(recordInfo, Priority.ALWAYS);
     }
 }

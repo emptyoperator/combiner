@@ -9,19 +9,14 @@ public class ConsumerTabPane extends GenericTabPane {
     private static final String NEW_CONSUMER = "New consumer";
 
     public ConsumerTabPane(Broker broker) {
-        setTabs(broker.details().consumers(), topic -> {
-            Tab tab = new Tab(topic);
-            tab.setContent(Views.consumer(widthProperty(), topic, broker.client()));
-            return tab;
-        });
+        setTabs(broker.details().consumers(), topic -> new Tab(topic, Views.consumer(widthProperty(), topic, broker.client())));
         addNewTabButton(() -> {
             Tab tab = new Tab(NEW_CONSUMER);
             tab.setContent(Views.topicSelector(broker.client(), topic -> {
                 getTabByName(topic).ifPresentOrElse(getSelectionModel()::select, () -> {
-                    tab.setClosable(true);
                     tab.setText(topic);
                     tab.setContent(Views.consumer(widthProperty(), topic, broker.client()));
-                    tab.onClosedProperty().addListener(observable -> broker.client().unsubscribe(topic));
+                    tab.setOnClosed(observable -> broker.client().unsubscribe(topic));
                 });
             }));
             return tab;

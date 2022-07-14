@@ -36,13 +36,14 @@ public class BrokerClient implements AutoCloseable {
 
     private final Admin admin;
     private final KafkaProducer<String, String> producer;
-    private final KafkaConsumer<String, String> consumer;
     private final Map<String, Consumer<ConsumerRecord<String, String>>> listeners = new ConcurrentHashMap<>();
     private final AtomicBoolean running = new AtomicBoolean();
+    private final Properties properties = new Properties();
+
+    private KafkaConsumer<String, String> consumer;
     private Thread worker;
 
     public BrokerClient(String bootstrapServer) {
-        Properties properties = new Properties();
         properties.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
         properties.put(CLIENT_ID_CONFIG, CLIENT_ID);
         properties.put(GROUP_ID_CONFIG, CLIENT_ID);
@@ -52,7 +53,6 @@ public class BrokerClient implements AutoCloseable {
         properties.put(VALUE_DESERIALIZER_CLASS_CONFIG, VALUE_DESERIALIZER);
         admin = Admin.create(properties);
         producer = new KafkaProducer<>(properties);
-        consumer = new KafkaConsumer<>(properties);
     }
 
     public KafkaFuture<Set<String>> topics() {
@@ -64,6 +64,9 @@ public class BrokerClient implements AutoCloseable {
     }
 
     public void subscribe(String topic, Consumer<ConsumerRecord<String, String>> listener) {
+        if (!running.get()) {
+            consumer = new KafkaConsumer<>(properties);
+        }
         Set<String> subscription = new HashSet<>(subscription());
         boolean wasEmpty = subscription.isEmpty();
         subscription.add(topic);
@@ -79,8 +82,9 @@ public class BrokerClient implements AutoCloseable {
         subscription.remove(topic);
         if (subscription.isEmpty()) {
             stopConsumer();
+        } else {
+            subscribe(subscription);
         }
-        subscribe(subscription);
         listeners.remove(topic);
     }
 
@@ -110,6 +114,8 @@ public class BrokerClient implements AutoCloseable {
             if (running.get()) {
                 throw e;
             }
+        } finally {
+            consumer.close();
         }
     }
 
@@ -130,6 +136,5 @@ public class BrokerClient implements AutoCloseable {
         admin.close();
         producer.close();
         stopConsumer();
-        consumer.close();
     }
 }

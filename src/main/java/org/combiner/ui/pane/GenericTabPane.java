@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class GenericTabPane extends TabPane {
     public GenericTabPane() {
-        setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+        setTabClosingPolicy(TabClosingPolicy.ALL_TABS);
     }
 
     protected Optional<Tab> getTabByName(String name) {

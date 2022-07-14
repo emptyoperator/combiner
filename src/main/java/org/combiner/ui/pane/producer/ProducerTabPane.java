@@ -13,9 +13,10 @@ public class ProducerTabPane extends GenericTabPane {
         addNewTabButton(() -> {
             Tab tab = new Tab(NEW_PRODUCER);
             tab.setContent(Views.topicSelector(broker.client(), topic -> {
-                tab.setClosable(true);
-                tab.setText(topic);
-                tab.setContent(Views.producer(topic, broker.client()));
+                getTabByName(topic).ifPresentOrElse(getSelectionModel()::select, () -> {
+                    tab.setText(topic);
+                    tab.setContent(Views.producer(topic, broker.client()));
+                });
             }));
             return tab;
         });
