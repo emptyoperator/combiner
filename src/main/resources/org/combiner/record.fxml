@@ -16,5 +16,5 @@
         <Text fx:id="value" fill="CORNFLOWERBLUE" strokeType="OUTSIDE" strokeWidth="0.0"
               style="-fx-font-weight: bold;"/>
     </VBox>
-    <Button fx:id="button" mnemonicParsing="false" text="Button"/>
+    <Button fx:id="button" minWidth="60.0" mnemonicParsing="false" text="Button"/>
 </HBox>

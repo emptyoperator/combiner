@@ -44,8 +44,7 @@ public class RecordController {
         timestamp.setText(formatter.format(instant));
         key.setText(record.key());
         value.setText(record.value());
-        recordInfo.maxWidthProperty().bind(expression.subtract(button.widthProperty()));
-        value.wrappingWidthProperty().bind(expression.subtract(button.widthProperty()));
+        value.wrappingWidthProperty().bind(expression.subtract(button.minWidthProperty()).subtract(5));
         HBox.setHgrow(recordInfo, Priority.ALWAYS);
     }
 }

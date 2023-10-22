@@ -1,7 +1,6 @@
 package org.combiner.controller;
 
 import javafx.application.Platform;
-import javafx.beans.binding.NumberExpression;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
@@ -11,15 +10,13 @@ import org.combiner.ui.NoSelectionModel;
 import org.combiner.ui.Views;
 
 public class ConsumerController {
-    private final NumberExpression expression;
     private final String topic;
     private final BrokerClient client;
 
     @FXML
     private ListView<Node> records;
 
-    public ConsumerController(NumberExpression expression, String topic, BrokerClient client) {
-        this.expression = expression;
+    public ConsumerController(String topic, BrokerClient client) {
         this.topic = topic;
         this.client = client;
     }
@@ -39,6 +36,6 @@ public class ConsumerController {
                 }
             }
         });
-        client.subscribe(topic, record -> Platform.runLater(() -> records.getItems().add(Views.record(expression, record))));
+        client.subscribe(topic, record -> Platform.runLater(() -> records.getItems().add(Views.record(records.widthProperty().subtract(30), record))));
     }
 }

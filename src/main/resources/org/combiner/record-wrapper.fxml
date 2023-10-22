@@ -2,11 +2,21 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1">
-    <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <ChoiceBox fx:id="topic" prefWidth="300.0"/>
-    </StackPane>
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="root" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <VBox fx:id="recordInfo" HBox.hgrow="ALWAYS">
+              <HBox>
+                  <TextFlow>
+                      <Text fx:id="timestamp" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: gray;" text="test" />
+                      <Text fx:id="key" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="test" />
+                  </TextFlow>
+              </HBox>
+              <Text fx:id="value" fill="CORNFLOWERBLUE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="test" />
+          </VBox>
+          <Button fx:id="button" minWidth="50.0" mnemonicParsing="false" text="Button" />
+      </HBox>
+   </children>
 </AnchorPane>

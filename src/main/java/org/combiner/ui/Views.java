@@ -22,8 +22,8 @@ public class Views {
         return loadView("/org/combiner/producer.fxml", new ProducerController(topic, client));
     }
 
-    public static Node consumer(NumberExpression expression, String topic, BrokerClient client) {
-        return loadView("/org/combiner/consumer.fxml", new ConsumerController(expression, topic, client));
+    public static Node consumer(String topic, BrokerClient client) {
+        return loadView("/org/combiner/consumer.fxml", new ConsumerController(topic, client));
     }
 
     public static Node record(NumberExpression expression, ConsumerRecord<String, String> record) {
